@@ -1,58 +1,346 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div class="HelloWorld">
+    <v-container>
+      <v-layout row wrap>
+        <v-flex md12 xs12>
+          <v-card class="ma-3" v-for="item in current" :key="item.title">
+            <v-card-text>
+              <div class="subheading">{{item.title}}</div>
+              <div class="grey--text text-wrapper">{{item.content}}</div>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn color="grey" class="lighten-2">
+                <v-icon small left>message</v-icon>
+                <span>hi</span>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+
+    <v-speed-dial bottom right direction="top" fixed open-on-hover="true">
+      <v-btn slot="activator" fab>
+        <v-icon>apps</v-icon>
+      </v-btn>
+
+      <v-list class="skyblue mr-5 pr-5">
+        <v-list-tile class="mr-5" v-for="(item, index) in items" :key="index" @click="getC(index)">
+          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-speed-dial>
+
+    <v-dialog v-model="dialog" width="800px">
+      <v-card>
+        <v-card-title class="grey lighten-4 py-4 title">Create contact</v-card-title>
+        <v-container grid-list-sm class="pa-4">
+          <v-layout row wrap>
+            <v-flex xs10 align-center justify-space-between>
+              <v-layout align-center>
+                <v-avatar size="40px" class="mr-3">
+                  <img src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png" alt>
+                </v-avatar>
+                <v-text-field placeholder="Name"></v-text-field>
+              </v-layout>
+            </v-flex>
+            <v-flex xs6>
+              <v-text-field prepend-icon="business" placeholder="Company"></v-text-field>
+            </v-flex>
+            <v-flex xs6>
+              <v-text-field placeholder="Job title"></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field prepend-icon="mail" placeholder="Email"></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field
+                type="tel"
+                prepend-icon="phone"
+                placeholder="(000) 000 - 0000"
+                mask="phone"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field prepend-icon="notes" placeholder="Notes"></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <v-card-actions>
+          <v-btn flat color="primary">More</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
+          <v-btn flat @click="dialog = false">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
-</script>
+  name: "HelloWorld",
+  components: {},
+  created() {
+    this.current = this.maogai[0];
+  },
+  data() {
+    return {
+      dialog: false,
+      current: null,
+      maogai: [
+        [
+          {
+            title: "1.毛泽东思想形成和发展的社会历史条件是什么？p3",
+            content: `\n①19世纪末20世纪初，世界进入帝国主义和无产阶级革命时代，毛泽东思想正是在这样的时代条件下形成和发展起来的
+\n②中国共产党领导人民进行革命和建设的成功实践是毛泽东思想形成和发展的实践基础
+\n③思想条件:十月革命给中国送来了马克思列宁主义，中国革命从此有了科学的指导思想
+`
+          },
+          {
+            title: "2.如何把握毛泽东思想的主要内容和活的灵魂？p8",
+            content: `\n①新民主主义革命理论、社会主义革命和社会主义建设理论、革命军队建设和军事战略的理论、政策和策略的理论、思想政治工作和文化工作的理论、党的建设理论、这些是毛泽东思想科学体系的主要内容
+\n②实事求是、群众路线、独立自主是毛泽东思想的活的灵魂(论述)
+\n③贯穿于毛泽东思想各个组成部分的立场、观点和方法，是毛泽东思想的活的灵魂，它们有三个基本方面，即实事求是，群众路线，独立自主
+`
+          },
+          {
+            title: "3.如何科学认识毛泽东思想的历史地位？p14",
+            content: `\n①马克思主义中国化的第一个重大理论成果
+\n②中国革命和建设的科学指南
+\n③中国共产党和中国人民宝贵的精神财富
+`
+          }
+        ],
+        [
+          {
+            title:
+              "1、什么是新民主主义革命的总路线？如何理解新民主主义革命的领导权问题？p24，p27",
+            content: `\n总路线：1948年，他在《在晋绥干部会议上的讲话》中完整的表述了，总路线的内容，即无产阶级领导的，人民大众的，反对帝国主义、封建主义和官僚资本主义的革命。
+  \n ×领导权问题：
+\n①无产阶级的领导权是中国革命的中心问题，也是新民主主义革命理论的核心问题。区别新旧两种不同范畴的民主主义革命的根本标志是，革命的领导权掌握在无产阶级手中还是掌握在资产阶级手中。
+\n②无产阶级及其政党―中国共产党的领导，是中国革命取得胜利的根本保证。
+的
+\n③无产阶级及其政党对中国革命的领导权不是自然而然得来的，而是在与资产阶级争夺领导权的斗争中实现的。
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+`
+          },
+          {
+            title: "2、新民主主义基本纲领的主要内容是什么？p31",
+            content: `\n①新民主主义的政治纲领是：推翻帝国主义和封建主义的统治，建立一个无产阶级领导的、以工农联盟为基础的、各革命阶级联合专政的新民主主义的共和国。
+\n②新民主主义的经济纲领是：没收封建地主阶级的土地归农民所有，没收官僚资产阶级的垄断资本归新民主主义的国家所有，保护民族工商业。
+\n③新民主主义文化，就是无产阶级领导的人民大众的反帝反封建的文化，即民族的科学的大众的文化。
+
+`
+          },
+          {
+            title:
+              "3、如何认识中国革命走农村包围城市，武装夺取政权道路的必要性及重大意义？p34/36",
+            content: `\n①中国革命必须走农村包围城市、武装夺取政权的道路，是由中国所处的时代特点和具体国情决定的。一方面，在半殖民地半封建的中国社会，内无民主制度而受封建主义的压迫，外无民族独立而受帝国主义的压迫。
+\n②另一方面，近代中国是一个农业大国，农民占全国人口的绝大多数，是无产阶级可靠的同盟军和革命的主力军。
+\n意义:③中国革命道路的理论，反映了中国半殖民地半封建社会民主革命发展的客观规律。中国革命道路理论是党运用马克思主义的立场、观点和方法，分析、研究和解决中国革命具体问题的光辉典范，对于推进马克思主义中国化具有重要的方法论意义。
+
+`
+          },
+          {
+            title: "如何理解新民主主义革命的三大法宝及其相互关系？p36，p41",
+            content: `\n①把统一战线、武装斗争、党的建设比作党在中国革命中战胜敌人的三个主要的法宝。
+\n②毛泽东指出，统一战线和武装斗争是中国革命的两个基本特点，是战胜敌人的两个基本武器。统一战线是实行武装斗争的统一战线，武装斗争是统一战线的中心支柱，党的组织则是掌握统一战线和武装斗争这两个武器以实行对敌冲锋陷阵的英勇战士。
+`
+          }
+        ],
+        [
+          {
+            title: "×1、为什么说新民主主义社会是一个过渡性社会？p44",
+            content: `\n从中华人民共和国成立到社会主义改造基本完成，是我国从新民主主义到社会主义的过渡时期
+新民主主义社会不是一个独立的社会形态，而是由新民主主义向社会主义转变的过渡     社会形态。
+\n①在新民主主义社会中，存在着五种经济成分，即社会主义性质国营经济，半社会主义性质的合作社经济，农民和手工业者的个人经济，私人资本主义经济和国家资本主义经济。
+\n②在新民主主义社会中，社会主义的因素不论在经济上还是在政治上都已经居于领导地位，但非社会主义因素仍有很大比重。
+\n③新民主主义社会是属于社会主义体系的，是逐步过渡到社会主义社会的过渡性质的社会。
+
+`
+          },
+          {
+            title: "2、怎样理解党在过渡时期的总路线？p47",
+            content: `\n从中华人民共和国成立，到社会主义改造基本完成，这是一个过渡时期。党在这个过渡时期的总路线和总任务，是要在相当长的时期内逐步实现国家的社会主义工业化，并逐步实现国家对农业，对手工业和资本主义工商业的社会主义改造。
+`
+          },
+          {
+            title: "3、如何认识我国社会主义改造的基本经验？p56",
+            content: `\n第一，坚持社会主义工业化建设与社会主义改造同时并举。
+\n第二，采取积极引导，逐步过渡的方式。
+\n第三，用和平方法进行改造。
+
+`
+          },
+          {
+            title: "×4、如何理解中国确定社会主义基本制度的重大意义？p61",
+            content: `\n社会主义基本制度的确立是中国历史上最深刻，最伟大的社会变革。为当代中国发展进步奠定了制度基础，也为中国特色社会主义制度的创新和发展提供了重要前提。
+《或者》中华人民共和国的成立和社会主义制度基本制度的确立，是20世纪中国一次划时代的历史巨变，也是世界社会主义发展史上又一个历史性的伟大胜利，为当代中国一切发展进步奠定了根本的政治前提和制度基础，实现了中华民族由近代不断衰落到根本扭转命运，持续走向繁荣富强的伟大飞跃。
+`
+          }
+        ],
+        [
+          {
+            title:
+              "1.党在中国社会主义建设道路的初步探索中，取得了哪些重要的理论成果？p65",
+            content: `\n①调动一切积极因素为社会主义事业服务。论十大关系
+\n②正确认识和处理社会主义社会矛盾的思想。正确处理人民民主矛盾
+\n③走中国工业化道路的思想。
+
+`
+          },
+          {
+            title: "2.如何认识党对社会主义建设道路初步探索的重大意义？p76",
+            content: `\n①第一，巩固和发展了我国的社会主义制度。
+\n②第二，为开创中国特色社会主义提供了宝贵经验，理论准备，物质基础。
+\n③第三，丰富了科学社会主义的理论和实践。
+
+`
+          },
+          {
+            title: "∮3.党对社会主义建设道路的初步探索有哪些经验教训？p78",
+            content: `\n①第一，必须把马克思主义与中国实际相结合，探索符合中国特点的社会主义建设道路。
+\n②第二，必须正确认识社会主义社会的主要矛盾和根本任务，集中力量发展生产力。
+\n③第三，必须从实际出发进行社会主义建设，建设规模和速度要和国力相适应，不能急于求成。
+\n④第四，必须发展社会主义民主，健全社会主义法制。
+\n⑤第五，必须坚持党的民主集中制和集体领导制度，加强执政党建设。
+\n⑥第六，必须坚持对外开放，借鉴和吸收人类文明成果建设社会主义，不能关起门来搞建设。
+
+`
+          }
+        ],
+        [
+          {
+            title: "1、如何认识邓小平理论形成的社会历史条件？p87",
+            content: `\n① 和平与发展成为时代主题是邓小平理论形成的时代背景
+\n② 社会主义建设的经验教训是邓小平理论形成的历史依据
+\n③ 改革开放和现代化建设的实践是邓小平理论形成的现实依据
+
+`
+          },
+          {
+            title: "∮2、如何把握邓小平理论的主要内容？",
+            content: `\n① 解放思想、实事求是的思想路线
+\n② 社会主义初级阶段理论
+\n③ 党的基本路线
+\n④ 社会主义根本任务的理论
+\n⑤ “三步走”战略
+\n⑥ 改革开放理论
+\n⑦ 社会主义市场经济理论
+\n⑧ “两手抓，两手都要硬”
+\n⑨ “一国两制”
+\n⑩ 中国问题的关键在于党
+
+`
+          },
+          {
+            title: "3、如何认识邓小平理论的历史地位？p114",
+            content: `\n① 马克思列宁主义，毛泽东思想的继承和发展
+\n② 中国特色社会主义理论体系的开篇之作
+\n③ 改革开放和社会主义现代化建设的科学指南
+
+`
+          }
+        ],
+        [
+          {
+            title: "1.如何把握“三个代表”重要思想形成的社会历史条件？p119",
+            content: `\n①“三个代表”重要思想是在对冷战结束后国际局势科学判断的基础上形成的。
+\n②“三个代表”重要思想是在科学判断党的历史方位和总结历史经验的基础上提出来的。
+\n③“三个代表”重要思想是在建设中国特色社会主义伟大实践的基础上形成的。
+
+`
+          },
+          {
+            title: "2.怎样准确把握“三个代表”重要思想的核心观点？p126",
+            content: `\n中国共产党必须\n①始终代表中国先进生产力的发展要求，\n②代表中国先进文化的前进方向，\n③始代表中国最广大人民的根本利益。
+`
+          },
+          {
+            title: "3.如何认识建设社会主义市场经济体制的重要性？p132",
+            content: `\n在社会主义条件下发展市场经济，实现了改革开放新的历史性突破，打开了我国经济、政治和文化发展的崭新局面，是前无古人的伟大创举，是中国共产党人对马克思主义发展作出的历史性贡献，具有特殊重要的意义。
+`
+          },
+          {
+            title: "4.如何理解“三个代表”重要思想的历史地位？p140",
+            content: `\n①中国特色社会主义理论体系的接续发展。
+\n②加强和改进党的建设，推进中国特色社会主义事业的强大理论武器。
+`
+          }
+        ],
+        [
+          {
+            title: "1、如何理解科学发展观形成发展的社会历史条件？p145",
+            content: `\n① 科学发展观是在深刻把握我国基本国情和新的阶段性特征的基础上形成和发展的
+\n② 科学发展观是在深入总结改革开放以来，特别是党的十六大以来实践经验的基础上形成和发展的
+\n③ 科学发展观是在深刻分析国际形势，顺应世界发展趋势，借鉴国外发展经验的基础上形成和发展的
+
+`
+          },
+          {
+            title: "2、 如何把握科学发展观的科学内涵和精神实质？p168",
+            content: `\n科学内涵：
+\n① 推动经济社会发展，是科学发展观的第一要义
+\n② 以人为本是科学发展观的核心立场
+\n③ 全面协调可持续，是科学发展观的基本要求
+\n④ 统筹兼顾是科学发展观的根本方法
+\n精神实质：解放思想，实事求是，与时俱进，求真务实，是科学发展观最鲜明的精神实质
+
+`
+          },
+          {
+            title: "3、如何理解科学发展观的历史地位和指导意义？p170",
+            content: `\n历史地位：
+\n① 中国特色社会主义理论体系的接续发展
+\n② 发展中国特色社会主义必须长期坚持的指导思想
+\n指导意义：科学发展观是马克思主义关于发展的世界观和方法论的集中体现，是中国特色社会主义理论体系的重要组成部分，是发展中国特色社会主义，必须长期坚持的指导思想
+
+`
+          }
+        ]
+      ],
+      items: [
+        {
+          title: "毛泽东思想及其历史地位",
+          router: "/c1"
+        },
+        {
+          title: "新民主主义革命理论",
+          router: "/c2"
+        },
+        {
+          title: "社会主义改造理论",
+          router: "/c3"
+        },
+        {
+          title: "社会主义建设道路初步探索",
+          router: "/c4"
+        },
+        {
+          title: "邓小平理论",
+          router: "/c5"
+        },
+        {
+          title: "三个代表",
+          router: "/c6"
+        },
+        {
+          title: "科学发展观",
+          router: "/c7"
+        }
+      ]
+    };
+  },
+  methods: {
+    getC(index) {
+      this.current = this.maogai[index];
+    }
+  }
+};
+</script>
+<style>
+.text-wrapper {
+  white-space: pre-wrap;
 }
 </style>
